@@ -112,3 +112,726 @@
     </script>
   </body>
 </html>
+
+------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Favorites</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f7f7f7;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1,
+      h2 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      input,
+      ul {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+        font-size: 16px;
+        margin-bottom: 15px;
+        outline: none;
+      }
+      button {
+        display: block;
+        width: 100%;
+        background-color: #4a90e2;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-bottom: 20px;
+      }
+      button:hover {
+        background-color: #357ab7;
+      }
+      #movieDisplay {
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Movie Favorites</h1>
+      <input type="text" id="movieInput" placeholder="Search for a movie..." />
+      <button id="fetchMovie">Search</button>
+      <div id="movieDisplay"></div>
+      <button id="addFavorite">Add to Favorites</button>
+      <h2>Favorites:</h2>
+      <ul id="favoritesList"></ul>
+      <button id="clearfav">Clear Favorites</button>
+    </div>
+
+    <script>
+      const fetchMovieBtn = document.getElementById("fetchMovie");
+      const movieInput = document.getElementById("movieInput");
+      const movieDisplay = document.getElementById("movieDisplay");
+      const addFavoriteBtn = document.getElementById("addFavorite");
+      const favoritesList = document.getElementById("favoritesList");
+      const clearfav = document.getElementById("clearfav");
+
+      const API_KEY = "b3f0cf09";
+      let currentMovie = null;
+
+      fetchMovieBtn.addEventListener("click", fetchMovie);
+
+      function fetchMovie() {
+        const movieTitle = movieInput.value.trim();
+        if (!movieTitle) {
+          movieDisplay.innerText = "Please enter a movie title.";
+          return;
+        }
+
+        fetch(`https://www.omdbapi.com/?t=${movieTitle}&apikey=${API_KEY}`)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.Response === "True") {
+              currentMovie = {
+                title: data.Title,
+                year: data.Year,
+                plot: data.Plot,
+              };
+              movieDisplay.innerHTML = `
+              <h3>${data.Title} (${data.Year})</h3>
+              <p>${data.Plot}</p>
+            `;
+            } else {
+              movieDisplay.innerText = data.Error;
+            }
+          })
+          .catch((err) => {
+            console.error("Error fetching movie:", err);
+            movieDisplay.innerText =
+              "An error occurred while fetching the movie.";
+          });
+      }
+
+      addFavoriteBtn.addEventListener("click", () => {
+        favoritesList.innerHTML += `<h3>${currentMovie.title} (${currentMovie.year})</h3><p>${currentMovie.plot}</p>`;
+      });
+
+      clearfav.addEventListener("click", () => {
+        favoritesList.innerHTML = "";
+      });
+    </script>
+  </body>
+</html>
+-------------------------------------------------------------------------------------
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Student Portal</title>
+    <style>
+      * {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body{
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  width: 100%;
+  background-color: #333;
+  color: white;
+  padding: 15px 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header p {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input_box {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.input_box input {
+  flex: 1 1 70%;
+  height: 40px;
+  padding: 0 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.input_box button {
+  flex: 1 1 20%;
+  height: 42px;
+  font-size: 1rem;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.input_box button:hover {
+  background-color: #555;
+}
+
+.sort_box {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.btn {
+  flex: 1 1 30%;
+  max-width: 170px;
+  height: 40px;
+  margin: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: #333;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #555;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table, th, td {
+  border: 1px solid #ccc;
+}
+
+th, td {
+  text-align: center;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+th {
+  background-color: #333;
+  color: white;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #e9e9e9;
+}
+
+@media (max-width: 768px) {
+  .input_box {
+      flex-direction: column;
+  }
+
+  .input_box input, .input_box button {
+      width: 100%;
+      margin: 5px 0;
+  }
+
+  .sort_box {
+      flex-direction: column;
+  }
+
+  .btn {
+      width: 100%;
+  }
+
+  table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+  }
+
+  th, td {
+      min-width: 150px;
+  }
+}
+
+
+    </style>
+  </head>
+
+  <body>
+    
+      <div class="header">
+        <p>Student Portal</p>
+        <span style="margin-left: 50px;">
+          dark mode <input type="checkbox" onclick="toggleData()">
+        </span>
+      </div>
+      <div class="container">
+        <div class="input_box">
+          <!-- The onkeyup event attribute in HTML allows you to specify a JavaScript function to be executed when a user releases a key on the keyboard while focused on an input field.  -->
+          <input
+            id="input"
+            onkeyup="search()"
+            placeholder="search here..."
+            type="text"
+            value=""
+          />
+        </div>
+        <div class="sort_box">
+          <button class="btn" onclick="handleSortByAscending()">
+            Sort A->Z
+          </button>
+          <button class="btn" onclick="handleSortByDesc()">Sort Z->A</button>
+          <button class="btn" onclick="handleByMarks()">Sort By Marks</button>
+          <button class="btn" onclick="handleByPassing()">
+            Sort By Passing
+          </button>
+          <button class="btn" onclick="handleByClass()">Sort By Class</button>
+          <button class="btn" onclick="handleByGender()">Sort By Gender</button>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Class</th>
+                <th>Marks</th>
+                <th>Passing</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+      </div>
+   
+    <script >
+      // The array now contains 20 objects
+
+let arr = [
+  {
+    id: 1,
+    name: "Faizur",
+    gender: "male",
+    class: 12,
+    marks: 99,
+    passing: "pass",
+    email: "faiz@gmail.com",
+  },
+  {
+    id: 2,
+    name: "Arif",
+    gender: "male",
+    class: 11,
+    marks: 86,
+    passing: "failed",
+    email: "arif@gmail.com",
+  },
+  {
+    id: 3,
+    name: "Khan",
+    gender: "female",
+    class: 10,
+    marks: 49,
+    passing: "pass",
+    email: "Kahn@gmail.com",
+  },
+
+  {
+    id: 4,
+    name: "Sarah",
+    gender: "female",
+    class: 11,
+    marks: 78,
+    passing: "pass",
+    email: "sarah@gmail.com",
+  },
+  {
+    id: 5,
+    name: "John",
+    gender: "male",
+    class: 12,
+    marks: 88,
+    passing: "pass",
+    email: "john@gmail.com",
+  },
+  {
+    id: 6,
+    name: "Emily",
+    gender: "female",
+    class: 10,
+    marks: 95,
+    passing: "pass",
+    email: "emily@gmail.com",
+  },
+  {
+    id: 7,
+    name: "Alex",
+    gender: "male",
+    class: 11,
+    marks: 68,
+    passing: "pass",
+    email: "alex@gmail.com",
+  },
+  {
+    id: 8,
+    name: "Sophia",
+    gender: "female",
+    class: 12,
+    marks: 79,
+    passing: "pass",
+    email: "sophia@gmail.com",
+  },
+  {
+    id: 9,
+    name: "Michael",
+    gender: "male",
+    class: 10,
+    marks: 55,
+    passing: "pass",
+    email: "michael@gmail.com",
+  },
+  {
+    id: 10,
+    name: "Emma",
+    gender: "female",
+    class: 11,
+    marks: 92,
+    passing: "pass",
+    email: "emma@gmail.com",
+  },
+  {
+    id: 11,
+    name: "Daniel",
+    gender: "male",
+    class: 12,
+    marks: 81,
+    passing: "pass",
+    email: "daniel@gmail.com",
+  },
+  {
+    id: 12,
+    name: "Olivia",
+    gender: "female",
+    class: 10,
+    marks: 67,
+    passing: "pass",
+    email: "olivia@gmail.com",
+  },
+  {
+    id: 13,
+    name: "Liam",
+    gender: "male",
+    class: 11,
+    marks: 72,
+    passing: "pass",
+    email: "liam@gmail.com",
+  },
+  {
+    id: 14,
+    name: "Ava",
+    gender: "female",
+    class: 12,
+    marks: 84,
+    passing: "pass",
+    email: "ava@gmail.com",
+  },
+  {
+    id: 15,
+    name: "Noah",
+    gender: "male",
+    class: 10,
+    marks: 63,
+    passing: "pass",
+    email: "noah@gmail.com",
+  },
+  {
+    id: 16,
+    name: "Isabella",
+    gender: "female",
+    class: 11,
+    marks: 90,
+    passing: "pass",
+    email: "isabella@gmail.com",
+  },
+  {
+    id: 17,
+    name: "Ethan",
+    gender: "male",
+    class: 12,
+    marks: 77,
+    passing: "pass",
+    email: "ethan@gmail.com",
+  },
+  {
+    id: 18,
+    name: "Mia",
+    gender: "female",
+    class: 10,
+    marks: 70,
+    passing: "pass",
+    email: "mia@gmail.com",
+  },
+  {
+    id: 19,
+    name: "Lucas",
+    gender: "male",
+    class: 11,
+    marks: 85,
+    passing: "pass",
+    email: "lucas@gmail.com",
+  },
+  {
+    id: 20,
+    name: "Charlotte",
+    gender: "female",
+    class: 12,
+    marks: 91,
+    passing: "pass",
+    email: "charlotte@gmail.com",
+  },
+];
+
+function tabel(data) {
+  let tbody = document.getElementById("tbody");
+  tbody.innerHTML = data
+    .map((val) => {
+      return `<tr id='row'>
+    <td>${val.id}</td>
+    <td>${val.name}</td>
+    <td>${val.gender}</td>
+    <td>${val.class}</td>
+    <td>${val.marks}</td>
+    <td>${val.passing}</td>
+    <td>${val.email}</td>
+    </tr>`;
+    })
+    .join(""); // Join the array elements into a single string so removed all commas
+}
+
+// just first time all data rendering
+tabel(arr);
+
+function search() {
+  let val = document.getElementById("input").value;
+  let res = arr.filter(
+    (item) => item.name.toLowerCase().includes(val.toLowerCase()) // its check arry object val conatins or not
+  );
+  tabel(res);
+}
+
+function handleSortByAscending() {
+  let res = arr.sort((a, b) => {
+    const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+    const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+
+    // Returning -1: If marksA < marksB, it indicates that a should come before b in the sorted array.
+    if (nameA < nameB) {
+      return -1;
+    }
+  });
+
+  tabel(res);
+}
+function handleSortByDesc() {
+  let res = arr.sort((a, b) => {
+    const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+    const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+
+    //Returning 1: If marksA > marksB, it indicates that a should come after b in the sorted array.
+    if (nameA > nameB) {
+      return -1;
+    }
+  });
+
+  tabel(res);
+}
+
+function handleByMarks() {
+  let res = arr.sort((a, b) => {
+    return a.marks - b.marks; // acending order
+  });
+
+  tabel(res);
+}
+
+function handleByPassing() {
+  let res = arr.sort((a, b) => {
+    const nameA = a.passing.toUpperCase(); // ignore upper and lowercase
+    const nameB = b.passing.toUpperCase(); // ignore upper and lowercase
+
+    if (nameA < nameB) {
+      return -1;
+    }
+  });
+
+  tabel(res);
+}
+
+function handleByClass() {
+  let res = arr.sort((a, b) => {
+    return a.class - b.class; // acensing order
+  });
+  tabel(res);
+}
+
+function handleByGender() {
+  let res = arr.sort((a, b) => {
+    const nameA = a.gender.toUpperCase(); // ignore upper and lowercase
+    const nameB = b.gender.toUpperCase(); // ignore upper and lowercase
+
+    if (nameA < nameB) {
+      return -1;
+    }
+  });
+
+  tabel(res);
+}
+
+// function toggleData() {
+//   let clr = document.body.style.backgroundColor;
+//   let cont = document.getElementsByClassName("container");
+//   let row = document.getElementsByTagName("td");
+
+//   for (let i = 0; i < cont.length; i++) {
+//     if (
+//       cont[i].style.backgroundColor === "white" ||
+//       cont[i].style.backgroundColor === ""
+//     ) {
+//       cont[i].style.backgroundColor = "black";
+//     } else {
+//       cont[i].style.backgroundColor = "white";
+//     }
+//   }
+
+//   if (clr === "white" || clr === "") {
+//     document.body.style.backgroundColor = "black";
+//   } else {
+//     document.body.style.backgroundColor = "white";
+//   }
+
+
+  
+//   for (let i = 0; i < row.length; i++) {
+//     if (
+//       row[i].style.backgroundColor === "white" ||
+//       row[i].style.backgroundColor === ""
+//     ) {
+//       row[i].style.backgroundColor = "black";
+//       row[i].style.color = "white";
+//     } else {
+//       row[i].style.backgroundColor = "white";
+//       row[i].style.color = "black";
+//     }
+//   }
+// }
+
+function toggleData(){
+  let body = document.body.style.backgroundColor
+
+  let container = document.getElementsByClassName('container')
+
+  let rows = document.getElementsByTagName('td')
+
+  if(body==='white' || body===''){
+    document.body.style.backgroundColor='black'
+  }
+
+  else{
+    document.body.style.backgroundColor='white'
+  }
+
+  for(let i=0;i<container.length;i++){
+    if(container[i].style.backgroundColor==='white'||container[i].style.backgroundColor===''){
+      container[i].style.backgroundColor='black'
+    }
+    else{
+      container[i].style.backgroundColor='white'
+    }
+  }
+
+  for(let i=0;i<rows.length;i++){
+    if(rows[i].style.backgroundColor==='white'||rows[i].style.backgroundColor===''){
+      rows[i].style.backgroundColor='black'
+      rows[i].style.color='white'
+
+    }
+    else{
+      rows[i].style.backgroundColor='white'
+      rows[i].style.color='black'
+    }
+  }
+
+}
+
+    </script>
+  </body>
+</html>
