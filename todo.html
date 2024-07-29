@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,
+      initial-scale=1.0"
+    />
+    <title>Todo-list</title>
+    <style>
+        
+            body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+        }
+        
+      .container {
+        
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .container-2 {
+        border: 2px solid;
+        padding: 20px;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="container-2">
+        <div class="header">
+          <h3>Todo-list</h3>
+        </div>
+        <div class="data" style="padding: 5px;">
+          <input id="val" type="text" placeholder="Enter here" />
+          <button onclick="addData()">Add</button>
+        </div>
+        <div class="table">
+          <table border="1">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th colspan="3">Buttons</th>
+              </tr>
+            </thead>
+            <tbody id="tb"></tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4" style="color: red; font-weight: 1000;">
+                    "code with faiz 01 - Subscribe and like my channel."
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script>
+      let val = document.getElementById("val");
+      let tbody = document.getElementById("tb");
+
+      let arr = [];
+
+      function addData() {
+        if (val.value === "") return;
+        arr.push({ text: val.value, complete: false });
+        val.value = "";
+        tableData();
+      }
+
+      function tableData() {
+        tbody.innerHTML = "";
+        arr.map((item, i) => {
+          tbody.innerHTML += `<tr>
+                    <td id='item-${i}'>${item.text}</td>
+                    <td><button onclick="updateData(${i})">Update</button></td>
+                    <td><button onclick="completeData(${i})">Complete</button></td>
+                    <td><button onclick="deleteData(${i})">Delete</button></td>
+                    </tr>`;
+        });
+        console.log(arr);
+      }
+
+      
+
+      function updateData(i) {
+        const text = prompt("Enter Value");
+        arr[i].text = text;
+        tableData(arr);
+      }
+
+      function deleteData(i) {
+        arr.splice(i, 1);
+        tableData();
+      }
+
+      function completeData(i) {
+        let item = document.getElementById(`item-${i}`);
+        if (item) {
+          item.style.textDecoration = "line-through";
+          item.style.color = "#999";
+
+          arr[i].complete = true;
+          console.log(arr);
+        }
+      }
+    </script>
+  </body>
+</html>
