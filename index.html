@@ -126,3 +126,15 @@
     </script>
   </body>
 </html>
+
+-------------------------------async/Await--------------------------------------------------
+ <input id="val" type="text"> <button onClick="serch()">submit</button>
+ async function serch(){
+            let val = document.getElementById('val').value.trim()
+            const res = await fetch(`https://www.omdbapi.com/?t=${val}&apikey=b3f0cf09`)
+            const data = await res.json()
+            console.log(data)
+          document.body.innerHTML=`<div>${data.Title}</div>
+            <div>${data.Year}</div>
+            <div>${data.Plot}</div>`
+        }
