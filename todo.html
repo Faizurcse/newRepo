@@ -793,7 +793,7 @@ function handleByGender() {
 //     }
 //   }
 // }
-
+// -------------------darkmode-------------------------------------------------------------------------------------------------------
 function toggleData(){
   let body = document.body.style.backgroundColor
 
@@ -831,6 +831,32 @@ function toggleData(){
   }
 
 }
+      // ------------------------------------add new data --------------------------------------------------------------------------------------
+      function AddNew() {
+  let id = prompt('Enter id:');
+  // Ensure that the new ID is unique
+  if (arr.find(item => item.id === parseInt(id))) {
+    alert('ID already exists.');
+    return;
+  }else{
+  let name = prompt('Enter name:');
+  let gender = prompt('Enter gender:');
+  let classes = prompt('Enter your class:');
+  let marks = prompt('Enter your marks:');
+  let passing = prompt('Enter passing status:');
+  let email = prompt('Enter email:');
+
+  arr.push({
+    id: parseInt(id), // Ensure id is a number
+    name: name,
+    gender: gender,
+    class: parseInt(classes), // Ensure class is a number
+    marks: parseInt(marks), // Ensure marks is a number
+    passing: passing,
+    email: email
+  });
+  }
+
 
     </script>
   </body>
